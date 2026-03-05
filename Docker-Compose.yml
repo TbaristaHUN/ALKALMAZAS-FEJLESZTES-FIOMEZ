@@ -1,0 +1,25 @@
+services:
+  # Adatbázis konténer
+  db:
+    image: mongodb/mongodb-community-server:8.0-ubuntu2204
+    container_name: inventory-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  # Saját Backend Container
+  backend:
+    build:
+      context: ./backend/MyInventoryApi
+      dockerfile: Dockerfile
+    container_name: inventory-api
+    ports:
+      - "5001:8080"
+    environment:
+      - ConnectionStrings__MongoDb=mongodb://db:27017
+    depends_on:
+      - db
+
+volumes:
+  mongo-data:

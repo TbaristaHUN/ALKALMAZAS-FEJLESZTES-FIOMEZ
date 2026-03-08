@@ -13,7 +13,7 @@ import { Product } from './models/product.model';
 export class App implements OnInit {
   products: Product[] = [];
   
-  // Egy üres objektum, amit az űrlaphoz kötünk
+ 
   newProduct: Product = { name: '', category: '', quantity: 0 };
 
   constructor(private productService: ProductService) {}
@@ -30,7 +30,7 @@ export class App implements OnInit {
   }
 
   onAddProduct() {
-    // Ne engedjünk üres terméket menteni
+    
     if (!this.newProduct.name || !this.newProduct.category) {
       alert('Kérlek töltsd ki a nevet és a kategóriát!');
       return;
@@ -38,10 +38,10 @@ export class App implements OnInit {
 
     this.productService.addProduct(this.newProduct).subscribe({
       next: (addedProduct) => {
-        // Hozzáadjuk a listához a sikeres mentés után
+        // Termék mentése
         this.products.push(addedProduct);
         
-        // Kiürítjük az űrlapot
+        // Űrlap törlése a mentés után
         this.newProduct = { name: '', category: '', quantity: 0 };
       },
       error: (err) => console.error('Hiba a termék mentésekor:', err)

@@ -1,5 +1,5 @@
 export interface Product {
-  id?: string; // Opcionális, mert POST-nál a backend generálja
+  id?: string; 
   name: string;
   category: string;
   quantity: number;

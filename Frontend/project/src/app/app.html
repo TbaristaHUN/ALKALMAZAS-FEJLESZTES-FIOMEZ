@@ -1,0 +1,22 @@
+<div class="container">
+  <h1>Készletnyilvántartó (Inventory)</h1>
+
+  <div class="form-container">
+    <h3>Új termék felvétele</h3>
+    <input [(ngModel)]="newProduct.name" placeholder="Termék neve" />
+    <input [(ngModel)]="newProduct.category" placeholder="Kategória" />
+    <input type="number" [(ngModel)]="newProduct.quantity" placeholder="Mennyiség" />
+    <button (click)="onAddProduct()">Mentés</button>
+  </div>
+
+  <h3>Jelenlegi termékek</h3>
+  <ul *ngIf="products.length > 0; else noProducts">
+    <li *ngFor="let product of products">
+      <strong>{{ product.name }}</strong> ({{ product.category }}) - Mennyiség: {{ product.quantity }} db
+    </li>
+  </ul>
+  
+  <ng-template #noProducts>
+    <p>Nincs még termék az adatbázisban.</p>
+  </ng-template>
+</div>

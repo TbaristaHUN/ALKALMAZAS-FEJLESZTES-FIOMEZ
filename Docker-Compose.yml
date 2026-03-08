@@ -21,5 +21,16 @@ services:
     depends_on:
       - db
 
+  #  Angular Frontend Container
+  frontend:
+    build:
+      context: ./frontend/project  # Cseréld ki az Angular projekted pontos mappájára!
+      dockerfile: Dockerfile
+    container_name: inventory-frontend
+    ports:
+      - "4200:80"  # A localhost:4200-on fogod elérni, ami a belső Nginx 80-as portjára mutat
+    depends_on:
+      - backend
+
 volumes:
   mongo-data:

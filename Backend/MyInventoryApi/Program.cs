@@ -9,6 +9,18 @@ builder.Services.AddEndpointsApiExplorer(); // Ez fontos a Swaggernek
 builder.Services.AddSwaggerGen(); // A régi, de stabil Swagger generátor
 builder.Services.AddSingleton<MyInventoryApi.Services.ProductService>();
 
+// 1. LÉPÉS: A CORS házirend definiálása a frontend számára
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200") // Csak az Angular appot engedjük be
+                  .AllowAnyHeader()                     // Bármilyen HTTP fejlécet engedélyezünk (pl. Authorization, Content-Type)
+                  .AllowAnyMethod();                    // Bármilyen HTTP metódust engedélyezünk (GET, POST, PUT, DELETE, stb.)
+        });
+});
+
 var app = builder.Build();
 
 //Swagger engedélyezése Dockerben és helyileg is
@@ -22,6 +34,7 @@ app.UseSwaggerUI(c =>
 // app.UseHttpsRedirection(); 
 
 app.UseAuthorization();
+app.UseCors("AllowAngularFrontend");
 app.MapControllers();
 
 app.MapGet("/", () => "A Backend fut! Probald a /swagger utvonalat.");

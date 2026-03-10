@@ -1,0 +1,53 @@
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Készletnyilvántartó (Inventory)</h1>
+
+  <div class="row">
+    <div class="col-md-5 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Új termék felvétele</h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label">Termék neve</label>
+            <input class="form-control" [(ngModel)]="newProduct.name" placeholder="Pl.: Laptop" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Kategória</label>
+            <input class="form-control" [(ngModel)]="newProduct.category" placeholder="Pl.: Elektronika" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Mennyiség</label>
+            <input type="number" class="form-control" [(ngModel)]="newProduct.quantity" placeholder="0" />
+          </div>
+          <button class="btn btn-primary w-100" (click)="onAddProduct()">Mentés</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-7">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Jelenlegi termékek</h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-group" *ngIf="products.length > 0; else noProducts">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let product of products">
+              <div>
+                <strong>{{ product.name }}</strong> 
+                <span class="text-muted ms-2">({{ product.category }})</span>
+              </div>
+              <span class="badge bg-secondary rounded-pill">{{ product.quantity }} db</span>
+            </li>
+          </ul>
+          
+          <ng-template #noProducts>
+            <div class="alert alert-info text-center mb-0">
+              Nincs még termék az adatbázisban.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

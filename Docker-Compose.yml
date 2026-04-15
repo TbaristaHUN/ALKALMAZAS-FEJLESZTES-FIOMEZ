@@ -11,7 +11,7 @@ services:
   # Saját Backend Container
   backend:
     build:
-      context: ./backend/MyInventoryApi
+      context: ./Backend/MyInventoryApi
       dockerfile: Dockerfile
     container_name: inventory-api
     ports:
@@ -24,7 +24,7 @@ services:
   #  Angular Frontend Container
   frontend:
     build:
-      context: ./frontend/project  # Cseréld ki az Angular projekted pontos mappájára!
+      context: ./Frontend
       dockerfile: Dockerfile
     container_name: inventory-frontend
     ports:

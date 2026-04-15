@@ -1,0 +1,52 @@
+name: Build & Push UI Docker Image
+
+on:
+  push:
+    branches: [ "main" ]
+    # Csak akkor indul el, ha a Frontend mappában (vagy alatta bármiben) változás történt
+    paths:
+      - 'Frontend/**'
+
+jobs:
+  build-and-dockerize-ui:
+    runs-on: ubuntu-latest
+    
+    # Mivel a package.json és az angular.json közvetlenül a Frontend mappában van,
+    # beállítjuk ezt az alapértelmezett munkakönyvtárnak.
+    defaults:
+      run:
+        working-directory: ./Frontend
+
+    steps:
+    - name: Kód letöltése (Checkout)
+      uses: actions/checkout@v4
+
+    - name: Node.js beállítása
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x' # Cseréld le arra a verzióra, amit használsz
+
+    - name: Függőségek telepítése
+      run: npm ci
+
+    - name: Angular UI Build (Production)
+      run: npm run build -- --configuration production
+
+    # --- DOCKER KONTÉNERIZÁLÁS RÉSZ ---
+    
+    - name: Docker Buildx beállítása
+      uses: docker/setup-buildx-action@v3
+
+    - name: Bejelentkezés a Container Registry-be (pl. Docker Hub)
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Docker image buildelése és pusholása
+      uses: docker/build-push-action@v5
+      with:
+        # A Dockerfile-t tartalmazó mappa elérési útja
+        context: ./Frontend 
+        push: true
+        tags: te_felhasznaloneved/projekt_neve-ui:latest

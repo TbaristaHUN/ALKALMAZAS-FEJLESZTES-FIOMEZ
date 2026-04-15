@@ -7,6 +7,9 @@ on:
     paths:
       - 'Backend/**'
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  
 jobs:
   build-and-dockerize-api:
     runs-on: ubuntu-latest

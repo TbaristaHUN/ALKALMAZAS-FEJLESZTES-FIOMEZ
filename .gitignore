@@ -1,0 +1,16 @@
+# MacOS system files
+.DS_Store
+
+# .NET build outputs (ideiglenes fájlok)
+bin/
+obj/
+out/
+
+# Visual Studio & VS Code settings
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Docker
+.dockerignore

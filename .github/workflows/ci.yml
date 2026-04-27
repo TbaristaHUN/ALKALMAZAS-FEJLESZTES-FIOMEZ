@@ -1,0 +1,35 @@
+name: CI Workflow
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install & Build Angular
+        run: |
+          cd Frontend/project
+          npm install
+          npm run build --if-present
+
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0' # Ellenőrizd, hogy 6.0, 7.0 vagy 8.0-át használsz-e!
+      - name: Restore & Build API
+        run: |
+          cd Backend/MyInventoryApi
+          dotnet restore
+          dotnet build --no-restore
